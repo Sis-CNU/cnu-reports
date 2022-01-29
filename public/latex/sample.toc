@@ -1,0 +1,13 @@
+\selectlanguage *{spanish}
+\contentsline {chapter}{\numberline {1}An Introduction to Lua\TeX }{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Linear Section}{2}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Slope-Intersection Form}{2}{subsection.1.1.1}%
+\contentsline {subsubsection}{Example 1}{2}{section*.2}%
+\contentsline {paragraph}{}{2}{section*.3}%
+\contentsline {subsubsection}{Example 2}{2}{section*.4}%
+\contentsline {paragraph}{}{2}{section*.5}%
+\contentsline {subsection}{\numberline {1.1.2}Standard Form}{3}{subsection.1.1.2}%
+\contentsline {paragraph}{}{3}{section*.6}%
+\contentsline {subsection}{\numberline {1.1.3}Point-Slope Form}{3}{subsection.1.1.3}%
+\contentsline {paragraph}{}{3}{section*.7}%
+\contentsline {section}{\numberline {1.2}Quadratic Section}{6}{section.1.2}%

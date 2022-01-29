@@ -1,0 +1,34 @@
+{
+    "name": "sys/cnu-reports",
+    "description": "Sistema CNU Reports",
+    "type": "project",
+    "license": "Licencias de software",
+    "autoload": {
+        "psr-4": {
+            "Controller\\": "controller/",
+            "Model\\": "model/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lexmark Alexander Palacios",
+            "email": "*",
+            "homepage": "*",
+            "role": "Developer"
+        },
+        {
+            "name": "José Manuel Dubón",
+            "email": "*",
+            "homepage": "*",
+            "role": "Developer"
+        },
+        {
+            "name": "Donald José Munguía Guadamuz",
+            "email": "jdonaldmunguia@gmail.com",
+            "homepage": "*",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

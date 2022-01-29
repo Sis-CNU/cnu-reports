@@ -1,0 +1,179 @@
+\documentclass[a4paper, 12pt]{report}
+
+\usepackage{hyperref}
+
+\usepackage{geometry}
+\geometry{
+  hmargin=3cm,
+  vmargin=2cm,
+  includeheadfoot
+}
+
+\usepackage{graphicx}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE, RO]{ CNU }
+\fancyhead[RE, LO]{ UNIVERSIDAD NACIONAL DE INGENIERÍA }
+\cfoot{\thepage}
+
+\usepackage{polyglossia}
+\setmainlanguage{spanish}
+
+\usepackage{tikz, fouriernc}
+\usetikzlibrary{calc}
+\definecolor{color-uni}{RGB}{0, 52, 133}
+
+\usepackage{fontspec}
+\setmainfont{Arial}
+\renewcommand{\baselinestretch}{1.5}
+
+\usepackage{longtable}
+
+\title{\LaTeX\ Document}
+\author{Donald Munguía}
+\date{\today}
+
+\begin{document}
+
+\begin{titlepage}
+        \begin{tikzpicture}[overlay,remember picture]
+
+            \fill[color-uni!15] (current page.south east) rectangle (current page.north west);			
+			
+            \fill[color-uni,even odd rule] (current page.south west) rectangle ([xshift=1.5cm]current page.north west) ($(current page.north west)!.5!(current page.south west)$) arc(180:270:3) ($(current page.north west)!.5!(current page.south west)$) arc(270:450:3.5) ([yshift=7cm]$(current page.north west)!.5!(current page.south west)$) arc(180:90:3);
+            
+           	\draw[color-uni!15, double=color-uni!15, double distance=1mm] (current page.south west) --+ (2, 2) --+ (-2, 6) --+ (2, 8) --+ (-2, 9) --+ (2, 13) --+ (-2, 18) --+ (2, 30);          
+
+		   	\draw[color-uni, thin] (13, -1) node[color-uni, above left] {\includegraphics[width=100pt]{latex/UNI.png}} --+ (0, 3) node[color-uni, below right] {\Huge N°01};
+		      		              
+            \node[yshift=-5cm, xslant=1, yscale=1.6, color-uni!40, opacity=.2] at (9.5, -6.5) {\scalebox{3}{Reporte CNU}};
+            
+            \node[yshift=-5cm, color-uni] at (8, -7) {\scalebox{3}{Reporte CNU}};
+
+            \node[yshift=-5cm, xslant=1, yscale=1.6, color-uni!40, opacity=.2] at (9.5, -8) {\scalebox{3}{2021}};            
+            
+            \node[yshift=-5cm, color-uni] at (8, -8.5) {\scalebox{3}{2021}};
+            
+            \draw[color-uni, fill=color-uni!20] ([xshift=-1cm]current page.north east) -- ([yshift=-1cm]current page.north east) -- ([yshift=-2cm]current page.north east) -- ([xshift=-2cm]current page.north east);
+            
+            \path ([xshift=-1cm]current page.north east) -- ([yshift=-1cm]current page.north east) node[midway,sloped,below=.1cm,color-uni] {SAMPLE};
+            
+        \end{tikzpicture}
+\end{titlepage}
+
+\maketitle
+\tableofcontents
+\newpage
+	
+\chapter{An Introduction to Lua\TeX}
+	\section{Linear Section}
+  	  	\subsection{Slope-Intersection Form}
+  	  		\subsubsection{Example 1}
+  	  		\paragraph{}
+  	  		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+  	  		\subsubsection{Example 2}
+  	  		\paragraph{}
+  	  		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+  	  		\subsection{Standard Form}
+  	    	\paragraph{}
+  	  		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+  	  		\subsection{Point-Slope Form}
+  	  	 	\paragraph{}
+  	  		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+\begin{center}
+\begin{longtable}{|l|l|l|}
+\caption[Feasible triples for a highly variable Grid]{Feasible triples for highly variable Grid, MLMMH.} \label{grid_mlmmh} \\ \hline 
+
+
+\multicolumn{1}{|c|}{\textbf{Column 1}}  &
+\multicolumn{1}{|c|}{\textbf{Column 2}}  &
+\multicolumn{1}{|c|}{\textbf{Column 3}}\\ \hline
+\endfirsthead
+
+\multicolumn{3}{c}%
+{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\ \hline 
+\multicolumn{1}{|c|}{\textbf{Column 1}}  &
+\multicolumn{1}{|c|}{\textbf{Column 2}}  &
+\multicolumn{1}{|c|}{\textbf{Column 3}}\\ \hline
+\endhead
+
+\hline \multicolumn{3}{c}{\textit{Continued on next page}} \\ \hline
+\endfoot
+
+\hline
+\endlastfoot
+
+0 & (1, 11, 13725) & (1, 12, 10980), (1, 13, 8235), (2, 2, 0), (3, 1, 0) \\
+2745 & (1, 12, 10980) & (1, 13, 8235), (2, 2, 0), (2, 3, 0), (3, 1, 0) \\
+5490 & (1, 12, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+8235 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+10980 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+13725 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+16470 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+19215 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+21960 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+24705 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+27450 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+30195 & (2, 2, 2745) & (2, 3, 0), (3, 1, 0) \\
+32940 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+35685 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+38430 & (1, 13, 10980) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+41175 & (1, 12, 13725) & (1, 13, 10980), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+43920 & (1, 13, 10980) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+46665 & (2, 2, 2745) & (2, 3, 0), (3, 1, 0) \\
+49410 & (2, 2, 2745) & (2, 3, 0), (3, 1, 0) \\
+52155 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+54900 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+57645 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+60390 & (1, 12, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+63135 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+65880 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+68625 & (2, 2, 2745) & (2, 3, 0), (3, 1, 0) \\
+71370 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+74115 & (1, 12, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+76860 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+79605 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+82350 & (1, 12, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+85095 & (1, 12, 13725) & (1, 13, 10980), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+87840 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+90585 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+93330 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+96075 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+98820 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+101565 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+104310 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+107055 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+109800 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+112545 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+115290 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+118035 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+120780 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+123525 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+126270 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+129015 & (2, 2, 2745) & (2, 3, 0), (3, 1, 0) \\
+131760 & (2, 2, 2745) & (2, 3, 0), (3, 1, 0) \\
+134505 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+137250 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+139995 & (2, 2, 2745) & (2, 3, 0), (3, 1, 0) \\
+142740 & (2, 2, 2745) & (2, 3, 0), (3, 1, 0) \\
+145485 & (1, 12, 16470) & (1, 13, 13725), (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+148230 & (2, 2, 2745) & (2, 3, 0), (3, 1, 0) \\
+150975 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+153720 & (1, 12, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+156465 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+159210 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+161955 & (1, 13, 16470) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+164700 & (1, 13, 13725) & (2, 2, 2745), (2, 3, 0), (3, 1, 0) \\
+\end{longtable}
+\end{center}
+  	  	
+	\section{Quadratic Section}
+		A rectangle has side lenghts of $(x+1)$ and $(x+5)$ \\
+		Another equation is $f(x)=2x^3+1$ \\
+		Another centered equation $$y=x^3+x^2-x$$
+		Hello World \LaTeX\		
+\end{document}
+
