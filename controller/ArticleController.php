@@ -3,7 +3,7 @@
 namespace Controller;
 
 use Model\Article;
-use Controller\Response;
+// use Controller\Response;
 use Controller\Artefacts;
 use Controller\Request;
 
@@ -17,28 +17,28 @@ class ArticleController implements Artefacts
 
     public static function create()
     {
-        $request = new Request();
-        $response = new  Response();
+        // $request = new Request();
+        // $response = new  Response();
 
-        $article = new Article([
-            "name"  => $request->getString('name'),
-            "brand" => $request->getString('brand'),
-            "price" => $request->getNumber('price'),
-            "stock" => $request->getInt('stock')
-        ]);
+        // $article = new Article([
+        //     "name"  => $request->getString('name'),
+        //     "brand" => $request->getString('brand'),
+        //     "price" => $request->getNumber('price'),
+        //     "stock" => $request->getInt('stock')
+        // ]);
 
-        if ($article->create()) {
-            return $response->redirect("/test-get", [
-                'success' => 'Data added successfully',
-                'data' => $article->getParams()
-            ]);
-        }                
+        // if ($article->create()) {
+        //     return $response->redirect("/test-get", [
+        //         'success' => 'Data added successfully',
+        //         'data' => $article->getParams()
+        //     ]);
+        // }                
     }
 
     public static function test_get()
     {
-        $response = new Response();
-        return $response->view('../view/page-one.php');
+        // $response = new Response();
+        // return $response->view('../view/page-one.php');
     }
 
     public static function read(int $id)
@@ -58,10 +58,10 @@ class ArticleController implements Artefacts
 
     public static function getArticle(int $id)
     {
-        $response = new Response();
-        $article = new Article();
-        return $response->json($article->getArticle([
-            'id' => $id
-        ]), 200);
+        // $response = new Response();
+        // $article = new Article();
+        // return $response->json($article->getArticle([
+        //     'id' => $id
+        // ]), 200);
     }
 }

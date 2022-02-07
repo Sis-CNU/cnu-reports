@@ -7,7 +7,7 @@ namespace Controller;
 use PDO;
 
 class Database
-{
+{    
     private static PDO $connexion;
 
     public function setConnection(PDO $conn): void
@@ -18,18 +18,20 @@ class Database
     public static function getConnection(): PDO
     {
         try {
-            self::$connexion = new PDO(
-                'mysql:host=localhost:3306; dbname=test',
-                'JDonald',
-                "93isjodoiIJOISmm***22"
-            );
-            self::$connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            self::$connexion->exec('SET CHARACTER SET UTF8');
+            if (!self::$connexion instanceof PDO) {
+                self::$connexion = new PDO(
+                    'mysql:host=localhost:3306; dbname=test',
+                    'JDonald',
+                    "93isjodoiIJOISmm***22"
+                );
+                self::$connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$connexion->exec('SET CHARACTER SET UTF8');
+            }
         } catch (\Throwable $th) {
-
             die("An error has happened -> {$th->getMessage()}; Near in line -> {$th->getLine()}");
+        } finally {
+            return self::$connexion;
         }
-        return self::$connexion;
     }
 
     public static function execute(string $query, array $params)

@@ -2,50 +2,79 @@
 
 namespace Controller;
 
-use Controller\Request;
-
+/**
+ * Clase Router
+ */
 class Router
 {
-    private $routeMap;
+    use Singleton;
+
+
+    /**
+     * Asignación de la variable rutas en otra variable.
+     *
+     * @var array
+     */
+    private array $routeMap;
+
+    /**
+     * 
+     */
     private static $regexPatters = [
         'number' => '\d+',
         'string' => '\w+'
     ];
 
+    /**
+     * Constructor de la clase Router.
+     */
     public function __construct()
     {
-        $json = file_get_contents('../routes/routes.json');
-        $this->routeMap = json_decode($json, true);
-        // print_r($json);
-        // print_r($this->routeMap);
+        // Incluyendo el archivo routes.php
+        include_once('../routes/routes.php');
+
+        // Impresión de la variable $this->routeMap        
+        $this->routeMap = $routes;
     }
 
     public function route(Request $request)
     {
+        /**
+         * Obtenemos la ruta de la URL
+         * https://dominio/this/is/my/path
+         * siendo la ruta => /this/is/my/path
+         */
         $path = $request->getPath();
-        // print_r($path);
+        // echo "<pre>" . print_r($path, true) . "</pre>";
 
-        foreach ($this->routeMap as $route => $info) {
-            $regexRoute = $this->getRegexRoute($route, $info);
-
-            // print_r($route);
-            // echo "<br>";
-
-            // print_r($info);
-            // echo "<br>";
-
-            // print_r($regexRoute . "------------" . $path . "---------------" . preg_match("@^/$regexRoute$@", $path));
-            // echo "<br>";
+        echo "<pre>" . print_r($this->routeMap[$path], true) . "</pre>";
 
 
-            if (preg_match("@^/$regexRoute+$@", $path)) {
-                return $this->executeController(
-                    $route,
-                    $path,
-                    $info
-                );
-            }
-        }
+
+        // foreach ($this->routeMap as $route => $info) {
+
+        //     $regexRoute = $this->getRegexRoute($route, $info);
+
+        //     // echo "<pre>" . print_r($route, true) . "</pre>";
+        //     // echo "<br>";
+
+        //     // print_r($info);
+        //     // echo "<br>";
+
+        //     echo "<pre>" . print_r($regexRoute . "------------" . $path . "---------------" . preg_match("@^/$regexRoute$@", $path), true) . "</pre>";
+
+
+        //     // echo "<br>";
+
+
+        //     if (preg_match("@^/$regexRoute+$@", $path)) {
+        //         return $this->executeController(
+        //             $route,
+        //             $path,
+        //             $info
+        //         );
+        //     }
+        // }
         return "Not found";
     }
 

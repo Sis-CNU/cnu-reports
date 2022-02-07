@@ -4,6 +4,8 @@ namespace Controller;
 
 class Request
 {
+    use Singleton;
+    
     const GET  = "GET";
     const  POST  = "POST";
 

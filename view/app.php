@@ -9,12 +9,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
     <link rel="manifest" href="/images/favicon/site.webmanifest">
-    <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/ui-bic.css">
+    <!-- <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/ui-bic.css"> -->
 </head>
 
 <body>
-    <form action="/article/create" method="post" enctype="multipart/form-data" class="w-50 m-auto" name="article-form" id="article-form" style="border: 1px solid black;">
+    <!-- <form action="/article/create" method="post" enctype="multipart/form-data" class="w-50 m-auto" name="article-form" id="article-form" style="border: 1px solid black;">
         <input name="id" id="id" value="5" hidden>
 
         <div class="form-group">
@@ -55,20 +55,20 @@
         </div>
 
     </form>
-    <a href="/link">Link</a>
+    <a href="/link">Link</a> -->
     <p>
         <?php
-        echo var_dump($data);
+        echo "<pre>" . print_r($data, true) . "</pre>";
         ?>
     </p>
 
-    <script type="module" src="/js/ui-bic.js"></script>
+    <!-- <script type="module" src="/js/ui-bic.js"></script>
     <script type="module">
         import {
             Spinner
         } from '/js/ui-bic.js';
         let spinCustom = new Spinner('price', 'btn-price-up', 'btn-price-down');
-    </script>
+    </script> -->
 </body>
 
 </html>

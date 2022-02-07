@@ -4,34 +4,39 @@ namespace Controller;
 
 class MainController
 {
+
     public static function mainPage()
     {
-        $response = new Response();
+        $response = Response::getInstance();        
         $data = ['Cat', 'Dog', 'Bunny', 'Duck', 'Elefant'];
+        
         return $response->view('../view/app.php', $data);
+        // return $response->json($data, 200);
+        // return $response->redirect('/link');
+        // return $response->render('../view/app.php');
     }
 
     public static function link()
     {
-        $response = new Response();
+        $response = Response::getInstance();
         return $response->view('../view/link.php');
     }
 
     public static function newPath()
     {
-        $response = new Response();
+        $response = Response::getInstance();
         echo "<h1>Ya sé PHP</h1>";
     }
 
     public static function latex()
     {
-        $response = new Response();
+        $response = Response::getInstance();
         return $response->view('../view/latex.php');
     }
 
     public static function pdf()
     {
-        $response = new Response();
+        $response = Response::getInstance();
         $latex = $response->render(
             '../view/templates/latex/sample.php',
             ['data'  => 'Hello World \LaTeX\\']
@@ -49,7 +54,7 @@ class MainController
         // -use-make                = Usa el programa make para intentar crear archivos faltantes.
         // -output-directory        = Establece la ruta del directorio para los archivos de salida.
 
-        $response = new Response();
+        $response = Response::getInstance();
 
         // Licencia Pública GNU
         //$process = shell_exec("lualatex -interaction=nonstopmode -output-directory=" . $_SERVER['DOCUMENT_ROOT'] . "/latex/ "  . $_SERVER['DOCUMENT_ROOT'] . "/sample.tex");
@@ -59,7 +64,7 @@ class MainController
 
         // Licencia Pública GNU Reducida
         $process = shell_exec("latexmk -pdflatex='xelatex -synctex=1 -interaction=batchmode %O %S' -pdf -use-make -output-directory=" . $_SERVER['DOCUMENT_ROOT'] . "/latex/ "  . $_SERVER['DOCUMENT_ROOT'] . "/sample.tex");
-        
+
         return $response->json([
             'process' => $process
         ], 200);

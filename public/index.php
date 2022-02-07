@@ -7,6 +7,7 @@ use Controller\{
 
 require_once('../vendor/autoload.php');
 
-$router = new Router();
-$response = $router->route(new Request());
+$router = Router::getInstance();
+$request = Request::getInstance();
+$response = $router->route($request);
 echo $response;

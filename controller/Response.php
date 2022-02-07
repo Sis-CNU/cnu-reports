@@ -2,9 +2,35 @@
 
 namespace Controller;
 
+/**
+ * Clase Response
+ */
 class Response
 {
-    public function view($view, array $data = [])
+    use Singleton;
+
+    /**
+     * Código de Status HTTP
+     * 
+     * @var array $status
+     */
+    private array $status = [
+        200 => '200 OK',
+        400 => '400 Bad Request',
+        422 => 'Unprocessable Entity',
+        500 => '500 Internal Server Error'
+    ];
+
+    /**
+     * Renderiza la vista html establecida por una ruta.
+     *
+     * @param string $view
+     * @param array $data
+     * 
+     * @return string|false Vista.
+     * 
+     */
+    public static function view(string $view, array $data = [])
     {
         if (!empty($data)) extract($data);
         ob_start();
@@ -13,7 +39,16 @@ class Response
         echo ob_get_clean();
     }
 
-    public function render($view, array $data = [])
+    /**
+     * Renderiza y ejecuta código php en cualquier tipo y extensión de archivo.
+     *
+     * @param string $view
+     * @param array $data
+     * 
+     * @return string|false Contenido renderizado
+     * 
+     */
+    public function render(string $view, array $data = [])
     {
         if (!empty($data)) extract($data);
         ob_start();
@@ -23,7 +58,16 @@ class Response
         return $content;
     }
 
-    public function redirect(string $url, $data = [])
+    /**
+     * Redireccionamiento de páginas.
+     *
+     * @param string $url
+     * @param array $data
+     * 
+     * @return never
+     * 
+     */
+    public function redirect(string $url, array $data = [])
     {
         session_start();
         $_SESSION['data'] = $data;
@@ -31,13 +75,30 @@ class Response
         exit();
     }
 
-    public function json(array $data, int $http_response_code)
+    /**
+     * Devuelve conjunto de datos json como API.
+     *
+     * @param array $data
+     * @param int $code
+     * 
+     * @return 
+     * 
+     */
+    public function json(array $data, int $code)
     {
         ob_start();
         header_remove();
-        header('Content-type: application/json; charset=utf-8');
-        http_response_code($http_response_code);
-        echo json_encode($data);
+        header("Cache-Control: private, max-age=300, s-maxage=900");
+        header("X-XSS-Protection: 1; mode=block");
+        header("X-Content-Type-Options: nosniff");
+        header("Content-Security-Policy: script-src 'self'");        
+        header("Content-type: application/json; charset=utf-8");
+        header("Status: " . $this->status[$code]);
+        http_response_code($code);
+        echo json_encode([
+            "status" => $code,
+            "data" => $data
+        ]);
         exit();
     }
 }
