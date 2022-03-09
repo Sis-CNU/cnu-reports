@@ -1,51 +1,51 @@
 <?php
 
+/**
+ * 
+ * 
+ */
 $routes = [
-   "" => [
+   "/" => [
       "controller" => "MainController",
       "callback" => "mainPage",
-      "params" => [],
    ],
-   "/this/is/my/path" => [
+   "home" => [
       "controller" => "MainController",
-      "callback" => "link",
-      "params" => [],
+      "callback" => "mainPage",
    ],
-   "nueva-ruta" => [
-      "controller" => "MainController",
-      "callback" => "newPath",
-      "params" => [],
-   ],
-   "article/create" => [
-      "controller" => "ArticleController",
-      "callback" => "create",
-      "params" => [],
-   ],
-   "article/:id" => [
-      "controller" => "ArticleController",
-      "callback" => "getArticle",
-      "params" => [
-         "id"=> "number" 
+   "research" => [
+      "post" => [
+         "controller" => "MainController",
+         "callback" => "getPostResearch",
+      ],
+      "under" => [
+         "controller" => "MainController",
+         "callback" => "getResearchUnder",
+      ],
+      ":id/all-events/category/:cat" => [
+         "controller" => "MainController",
+         "callback" => "getEvent",
+         "params" => [
+            "id" => "number",
+            "cat" => "string"
+         ],
+      ],
+      "events/:cat/category/:id" => [
+         "controller" => "MainController",
+         "callback" => "getEventTest",
+         "params" => [
+            "cat" => "string",
+            "id" => "number"
+         ],
+      ],
+      ":id" => [
+         "controller" => "MainController",
+         "callback" => "testOnlyOneParameter",
+         "params" => [            
+            "id" => "number"
+         ],
       ],
    ],
-   "test-get" => [
-      "controller" => "MainController",
-      "callback" => "test_get",
-      "params" => [],
-   ],
-   "latex-page" => [
-      "controller" => "MainController",
-      "callback" => "latex",
-      "params" => [],
-   ],
-   "pdf" => [
-      "controller" => "MainController",
-      "callback" => "pdf",
-      "params" => [],
-   ],
-   "execute" => [
-      "controller" => "MainController",
-      "callback" => "execute",
-      "params" => [],
-   ],
+   "events" => [],
+   "courses" => []
 ];

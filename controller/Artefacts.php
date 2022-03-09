@@ -6,13 +6,13 @@ namespace Controller;
 
 interface Artefacts
 {
-    public static function index();
+    public function index();
 
-    public static function create();
+    public function create();
 
-    public static function read(int $id);
+    public function read(int $id);
 
-    public static function update(int $id);
+    public function update(int $id);
 
-    public static function delete(int $id);
+    public function delete(int $id);
 }

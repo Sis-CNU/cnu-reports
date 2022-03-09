@@ -4,40 +4,68 @@ namespace Controller;
 
 class MainController
 {
+    use Singleton;
 
-    public static function mainPage()
+    private static Response $response;
+
+    public function mainPage()
     {
-        $response = Response::getInstance();        
-        $data = ['Cat', 'Dog', 'Bunny', 'Duck', 'Elefant'];
-        
-        return $response->view('../view/app.php', $data);
+        self::$response = Response::getInstance();
+        $data = ['cat' => 'Cat', 'dog' => 'Dog', 'bunny' => 'Bunny', 'duck' => 'Duck', 'elefant' => 'Elefant'];
+        return self::$response->view('../view/app.php', $data);
+
         // return $response->json($data, 200);
         // return $response->redirect('/link');
         // return $response->render('../view/app.php');
     }
 
-    public static function link()
+    public function getPostResearch()
     {
-        $response = Response::getInstance();
-        return $response->view('../view/link.php');
+        echo "<h2><pre>Get All Postgraduate Research</pre></h2>";
     }
 
-    public static function newPath()
+    public function getResearchUnder()
     {
-        $response = Response::getInstance();
+        echo "<h2><pre>Get All Undergraduate Research</pre></h2>";
+    }
+
+    public function getEvent(int $id, string $cat)
+    {
+        echo "<pre>id: $id, cat: $cat </pre>";
+    }
+
+    public function getEventTest(string $cat, int $id)
+    {
+        echo "<pre>id: $id, cat: $cat</pre>";
+    }
+
+    public function testOnlyOneParameter(int $id)
+    {
+        echo "<pre>IDN: $id</pre>";
+    }
+
+    public function link()
+    {
+        self::$response = Response::getInstance();
+        return self::$response->view('../view/link.php');
+    }
+
+    public function newPath()
+    {
+        self::$response = Response::getInstance();
         echo "<h1>Ya sé PHP</h1>";
     }
 
-    public static function latex()
+    public function latex()
     {
-        $response = Response::getInstance();
-        return $response->view('../view/latex.php');
+        self::$response = Response::getInstance();
+        return self::$response->view('../view/latex.php');
     }
 
-    public static function pdf()
+    public function pdf()
     {
-        $response = Response::getInstance();
-        $latex = $response->render(
+        self::$response = Response::getInstance();
+        $latex = self::$response->render(
             '../view/templates/latex/sample.php',
             ['data'  => 'Hello World \LaTeX\\']
         );
@@ -45,7 +73,7 @@ class MainController
         return "Archivo creado...";
     }
 
-    public static function execute()
+    public function execute()
     {
         // latexmk                  = Rutina de generación automática de documentos LaTeX.
         // -pdflua                  = Genera el pdf por LuaLaTeX.
@@ -54,7 +82,7 @@ class MainController
         // -use-make                = Usa el programa make para intentar crear archivos faltantes.
         // -output-directory        = Establece la ruta del directorio para los archivos de salida.
 
-        $response = Response::getInstance();
+        self::$response = Response::getInstance();
 
         // Licencia Pública GNU
         //$process = shell_exec("lualatex -interaction=nonstopmode -output-directory=" . $_SERVER['DOCUMENT_ROOT'] . "/latex/ "  . $_SERVER['DOCUMENT_ROOT'] . "/sample.tex");
@@ -65,7 +93,7 @@ class MainController
         // Licencia Pública GNU Reducida
         $process = shell_exec("latexmk -pdflatex='xelatex -synctex=1 -interaction=batchmode %O %S' -pdf -use-make -output-directory=" . $_SERVER['DOCUMENT_ROOT'] . "/latex/ "  . $_SERVER['DOCUMENT_ROOT'] . "/sample.tex");
 
-        return $response->json([
+        return self::$response->json([
             'process' => $process
         ], 200);
     }

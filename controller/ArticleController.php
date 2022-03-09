@@ -9,13 +9,14 @@ use Controller\Request;
 
 class ArticleController implements Artefacts
 {
+    use Singleton;
 
-    public static function index()
+    public function index()
     {
         return ['success' => 'Articles page has been indexed successfully'];
     }
 
-    public static function create()
+    public function create()
     {
         // $request = new Request();
         // $response = new  Response();
@@ -35,28 +36,28 @@ class ArticleController implements Artefacts
         // }                
     }
 
-    public static function test_get()
+    public function test_get()
     {
         // $response = new Response();
         // return $response->view('../view/page-one.php');
     }
 
-    public static function read(int $id)
+    public function read(int $id)
     {
         return ['success' => 'Article has been readed successfully'];
     }
 
-    public static function update(int $id)
+    public function update(int $id)
     {
         return ['success' => 'Article has been updated successfully'];
     }
 
-    public static function delete(int $id)
+    public function delete(int $id)
     {
         return ['success' => 'Article has been deleted successfully'];
     }
 
-    public static function getArticle(int $id)
+    public function getArticle(int $id)
     {
         // $response = new Response();
         // $article = new Article();

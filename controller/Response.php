@@ -7,6 +7,7 @@ namespace Controller;
  */
 class Response
 {
+    // Uso de patrón de diseño Singleton
     use Singleton;
 
     /**
@@ -67,7 +68,7 @@ class Response
      * @return never
      * 
      */
-    public function redirect(string $url, array $data = [])
+    public function redirect(string $url, array $data = []): never
     {
         session_start();
         $_SESSION['data'] = $data;
@@ -84,21 +85,18 @@ class Response
      * @return 
      * 
      */
-    public function json(array $data, int $code)
+    public function json(array $data, int $code): never
     {
         ob_start();
         header_remove();
         header("Cache-Control: private, max-age=300, s-maxage=900");
         header("X-XSS-Protection: 1; mode=block");
         header("X-Content-Type-Options: nosniff");
-        header("Content-Security-Policy: script-src 'self'");        
+        header("Content-Security-Policy: script-src 'self'");
         header("Content-type: application/json; charset=utf-8");
         header("Status: " . $this->status[$code]);
         http_response_code($code);
-        echo json_encode([
-            "status" => $code,
-            "data" => $data
-        ]);
+        echo json_encode(['data' => $data], JSON_PRETTY_PRINT);
         exit();
     }
 }

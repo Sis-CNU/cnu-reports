@@ -44,6 +44,7 @@ trait Singleton
     */
    private function __wakeup()
    {
+	   throw new Exception("Cannot unserialize singleton");
    }
 
    /**

@@ -1,6 +1,7 @@
 {
     "name": "sys/cnu-reports",
     "description": "Sistema CNU Reports",
+    "version": "",
     "type": "project",
     "license": "Licencias de software",
     "autoload": {
@@ -11,13 +12,7 @@
     },
     "authors": [
         {
-            "name": "Lexmark Alexander Palacios",
-            "email": "*",
-            "homepage": "*",
-            "role": "Developer"
-        },
-        {
-            "name": "José Manuel Dubón",
+            "name": "Lexmark Alexander Palacios Martínez",
             "email": "*",
             "homepage": "*",
             "role": "Developer"

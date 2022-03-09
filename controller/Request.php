@@ -4,6 +4,7 @@ namespace Controller;
 
 class Request
 {
+    // Uso de patrón de diseño Singleton
     use Singleton;
     
     const GET  = "GET";
@@ -56,6 +57,11 @@ class Request
     public function get(string $name)
     {        
         return $this->params[$name] ?? null;
+    }
+
+    public function paramsGET()
+    {
+        return $_GET;
     }
 
     public function getInt(string $name)
