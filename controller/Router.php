@@ -2,12 +2,15 @@
 
 namespace Controller;
 
+use Controller\Response;
+use Controller\Header;
+
 /**
  * Clase Router
  */
 class Router
 {
-    // Uso de patrón de diseño Singleton
+    // Uso de patrón de diseño Singleton.
     use Singleton;
 
     /**
@@ -22,7 +25,7 @@ class Router
      * en el archivo routes.php y la URI ejecutada a través del navegador.
      * 'string' => '\w+' // [a-zA-Z0-9_]
      */
-    private static $regexPatterns = [
+    private static array $regexPatterns = [
         /**
          * Este patrón solo acepta carácteres numéricos.
          */
@@ -91,9 +94,7 @@ class Router
             return $this->executeController($matchRoute["route"],  $path, $matchRoute["info"]);
         } else {
             // Se envía un mensaje de error 404 not found.
-            header('HTTP/1.0 404 Not Found', TRUE, 404);
-            readfile('../view/templates/404.php');
-            exit();
+            Header::headerResponse(404);
         }
     }
 
@@ -103,7 +104,7 @@ class Router
      * @param string $path Cadena de texto que representa la URI.
      * @param array $routes Arreglo de rutas o mapa de rutas.
      * 
-     * @return bool | array
+     * @return bool|array
      * 
      */
     private function match(string $path, array $routes)
@@ -128,11 +129,12 @@ class Router
             // Si dentro del primer nivel existe un controlador, una función o la ruta es exactamente un '/'
             if (
                 isset($info['controller']) || array_key_exists('controller', $info) &&
-                isset($info['callback']) || array_key_exists('callback', $info) ||
-                $path === '/'
+                isset($info['callback']) || array_key_exists('callback', $info)
             ) {
-                // Devuelve tanto la ruta, como el controlador y su función a ejecutarse.
-                return ["route" => $path, "info" => $info];
+                if ($levels[0] === $path) {
+                    // Devuelve tanto la ruta, como el controlador y su función a ejecutarse.                
+                    return ["route" => $path, "info" => $info];
+                }
             }
 
             // Si existe un segundo nivel

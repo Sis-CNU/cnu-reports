@@ -18,11 +18,11 @@
         <input name="id" id="id" value="5" hidden>
 
         <div class="form-group">
-            <input type="text" class="control w-100" name="name" id="article-name" placeholder="Article Name" required>
+            <input type="text" class="control w-100" name="name" id="article-name" placeholder="Article Name" required tabindex="0">
         </div>
 
         <div class="form-group">
-            <input type="text" class="control w-100" name="brand" id="brand" placeholder="Brand" required>
+            <input type="text" class="control w-100" name="brand" id="brand" placeholder="Brand" required tabindex="0">
         </div>
 
         <div class="form-group">
@@ -63,12 +63,7 @@
     </p>
 
     <script type="module" src="/js/ui-bic.js"></script>
-    <script type="module">
-        import {
-            Spinner
-        } from '/js/ui-bic.js';
-        let spinCustom = new Spinner('price', 'btn-price-up', 'btn-price-down');
-    </script>
+    <script type="module" src="/js/test.js"></script>
 </body>
 
 </html>

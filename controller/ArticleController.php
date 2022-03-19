@@ -3,13 +3,29 @@
 namespace Controller;
 
 use Model\Article;
-// use Controller\Response;
 use Controller\Artefacts;
-use Controller\Request;
 
+/**
+ * Clase ArticleController
+ */
 class ArticleController implements Artefacts
 {
+    // Uso de patrón de diseño Singleton.
     use Singleton;
+
+    /**
+     * Variable Request
+     *
+     * @var Request
+     */
+    private static Request $request;
+
+    /**
+     * * Variable Response
+     *
+     * @var Response
+     */
+    private static Response $response;
 
     public function index()
     {
@@ -18,28 +34,22 @@ class ArticleController implements Artefacts
 
     public function create()
     {
-        // $request = new Request();
-        // $response = new  Response();
+        self::$request = Request::getInstance();
+        self::$response = Response::getInstance();
 
-        // $article = new Article([
-        //     "name"  => $request->getString('name'),
-        //     "brand" => $request->getString('brand'),
-        //     "price" => $request->getNumber('price'),
-        //     "stock" => $request->getInt('stock')
-        // ]);
+        $article = new Article([
+            "name"  => self::$request->getString('name'),
+            "brand" => self::$request->getString('brand'),
+            "price" => self::$request->getNumber('price'),
+            "stock" => self::$request->getInt('stock')
+        ]);
 
-        // if ($article->create()) {
-        //     return $response->redirect("/test-get", [
-        //         'success' => 'Data added successfully',
-        //         'data' => $article->getParams()
-        //     ]);
-        // }                
-    }
-
-    public function test_get()
-    {
-        // $response = new Response();
-        // return $response->view('../view/page-one.php');
+        if ($article->create()) {
+            return self::$response->redirect("/test-get", [
+                'success' => 'Data added successfully',
+                'data' => $article->getParams()
+            ]);
+        }
     }
 
     public function read(int $id)
@@ -59,10 +69,12 @@ class ArticleController implements Artefacts
 
     public function getArticle(int $id)
     {
-        // $response = new Response();
-        // $article = new Article();
-        // return $response->json($article->getArticle([
-        //     'id' => $id
-        // ]), 200);
+        self::$response = Response::getInstance();
+        $article = new Article();
+
+        return self::$response
+            ->json($article->getArticle([
+                'id' => $id
+            ]), 200);
     }
 }

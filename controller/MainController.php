@@ -2,21 +2,35 @@
 
 namespace Controller;
 
+/**
+ * Clase MainController
+ */
 class MainController
 {
+    // Uso de patrón de diseño Singleton.
     use Singleton;
 
+    /**
+     * Variable Response
+     *
+     * @var Response
+     */
     private static Response $response;
 
     public function mainPage()
     {
         self::$response = Response::getInstance();
-        $data = ['cat' => 'Cat', 'dog' => 'Dog', 'bunny' => 'Bunny', 'duck' => 'Duck', 'elefant' => 'Elefant'];
+        $http_protocol = $_SERVER['SERVER_PROTOCOL'];
+        $data = ['cat' => 'Cat', 'dog' => 'Dog', 'bunny' => 'Bunny', 'duck' => 'Duck', 'elefant' => 'Elefant', 'http_protocol' => $http_protocol];
         return self::$response->view('../view/app.php', $data);
+        // return self::$response->json($data, 200);
+        // return self::$response->redirect('/redirect');
+        // return self::$response->render('../view/app.php');
+    }
 
-        // return $response->json($data, 200);
-        // return $response->redirect('/link');
-        // return $response->render('../view/app.php');
+    public function redirect()
+    {
+        echo "<h2><pre>We Here Into Redirected Page</pre></h2>";
     }
 
     public function getPostResearch()

@@ -13,6 +13,10 @@ $routes = [
       "controller" => "MainController",
       "callback" => "mainPage",
    ],
+   "redirect" => [
+      "controller" => "MainController",
+      "callback" => "redirect",
+   ],
    "research" => [
       "post" => [
          "controller" => "MainController",

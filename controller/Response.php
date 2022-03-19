@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Controller\Header;
+
 /**
  * Clase Response
  */
@@ -11,92 +13,87 @@ class Response
     use Singleton;
 
     /**
-     * Código de Status HTTP
-     * 
-     * @var array $status
-     */
-    private array $status = [
-        200 => '200 OK',
-        400 => '400 Bad Request',
-        422 => 'Unprocessable Entity',
-        500 => '500 Internal Server Error'
-    ];
-
-    /**
      * Renderiza la vista html establecida por una ruta.
      *
-     * @param string $view
-     * @param array $data
+     * @param string $view Directorio del archivo vista.
+     * @param array $data Arreglo de datos que se mandan a la vista.
      * 
      * @return string|false Vista.
      * 
      */
-    public static function view(string $view, array $data = [])
+    public function view(string $view, array $data = [])
     {
-        if (!empty($data)) extract($data);
-        ob_start();
-        require_once($view);
-        flush();
-        echo ob_get_clean();
+        if (file_exists($view) && !empty($view) && $view != null) {
+            if (!empty($data)) extract($data);
+            Header::headerResponse(200);
+
+            ob_start();
+            require_once($view);
+            flush();
+            echo ob_get_clean();
+        } else {
+            Header::headerResponse(404);
+        }
     }
 
     /**
      * Renderiza y ejecuta código php en cualquier tipo y extensión de archivo.
      *
-     * @param string $view
-     * @param array $data
+     * @param string $view Directorio del archivo vista a renderizar.
+     * @param array $data Arreglo de datos que se mandan a la vista.
      * 
      * @return string|false Contenido renderizado
      * 
      */
     public function render(string $view, array $data = [])
     {
-        if (!empty($data)) extract($data);
-        ob_start();
-        require_once($view);
-        $content = ob_get_contents();
-        ob_get_clean();
-        return $content;
+        if (file_exists($view) && !empty($view) && $view != null) {
+            if (!empty($data)) extract($data);
+            Header::headerResponse(200);
+
+            ob_start();
+            require_once($view);
+            $content = ob_get_contents();
+            ob_get_clean();
+            return $content;
+        } else {
+            Header::headerResponse(404);
+        }
     }
 
     /**
      * Redireccionamiento de páginas.
      *
-     * @param string $url
-     * @param array $data
+     * @param string $url URL a redireccionar.
+     * @param array $data Arreglo de datos que se mandan con la redirección.
      * 
      * @return never
      * 
      */
     public function redirect(string $url, array $data = []): never
     {
-        session_start();
-        $_SESSION['data'] = $data;
-        header("Location: $url");
+        if (!empty($data)) {
+            session_start();
+            $_SESSION['data'] = $data;
+        }
+        Header::redirectHeaders($url);
         exit();
     }
 
     /**
      * Devuelve conjunto de datos json como API.
      *
-     * @param array $data
-     * @param int $code
+     * @param array $data Arreglo de datos.
+     * @param int $code Código de status http.
      * 
-     * @return 
+     * @return string|false
      * 
      */
     public function json(array $data, int $code): never
     {
         ob_start();
-        header_remove();
-        header("Cache-Control: private, max-age=300, s-maxage=900");
-        header("X-XSS-Protection: 1; mode=block");
-        header("X-Content-Type-Options: nosniff");
-        header("Content-Security-Policy: script-src 'self'");
-        header("Content-type: application/json; charset=utf-8");
-        header("Status: " . $this->status[$code]);
-        http_response_code($code);
-        echo json_encode(['data' => $data], JSON_PRETTY_PRINT);
+        Header::apiHeaderResponse($code);
+        echo json_encode(['data' => $data]); // JSON_PRETTY_PRINT
         exit();
     }
 }

@@ -785,12 +785,14 @@ export class Spinner {
       // Eventos click del botón de arriba y abajo
       this.btnUp.addEventListener('click', (evt) => {
          evt.preventDefault();
-         this.spin.stepUp();
+         if (this.spin == document.activeElement)
+            this.spin.stepUp();
       }, false);
 
       this.btnDown.addEventListener('click', (evt) => {
          evt.preventDefault();
-         this.spin.stepDown();
+         if (this.spin == document.activeElement)
+            this.spin.stepDown();
       }, false);
 
       // Eventos de enfoque del boton de arriba
@@ -821,10 +823,12 @@ export class Spinner {
 
       // Evento de enfoque de input spin
       this.spin.addEventListener('focusin', (evt) => {
+         evt.preventDefault();
          this.#borderFocusButtons('#4A4C7D');
       }, false);
 
       this.spin.addEventListener('focusout', (evt) => {
+         evt.preventDefault();
          this.#borderFocusButtons('#dbdbdb');
       }, false);
    }

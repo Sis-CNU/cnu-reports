@@ -4,15 +4,54 @@ declare(strict_types=1);
 
 namespace Controller;
 
+/**
+ * Interface Artefacts
+ */
 interface Artefacts
 {
-    public function index();
+    /**
+     * Recupera todos los recursos de una tabla dentro de la base de datos.
+     *
+     * @return mixed
+     * 
+     */
+    public function index(): mixed;
 
-    public function create();
+    /**
+     * Crea un recurso dentro de la base de datos.
+     *
+     * @return mixed
+     * 
+     */
+    public function create(): mixed;
 
-    public function read(int $id);
+    /**
+     * Recupera un recurso según identificador.
+     *
+     * @param int $id
+     * 
+     * @return mixed
+     * 
+     */
+    public function read(int $id): mixed;
 
-    public function update(int $id);
+    /**
+     * Actualiza un recurso de la base de datos.
+     *
+     * @param int $id
+     * 
+     * @return mixed
+     * 
+     */
+    public function update(int $id): mixed;
 
-    public function delete(int $id);
+    /**
+     * Actualiza el recurso a su estado 'Inhabilitado'
+     *
+     * @param int $id
+     * 
+     * @return mixed
+     * 
+     */
+    public function delete(int $id): mixed;
 }
