@@ -1,10 +1,10 @@
 {
     "name": "sys/cnu-reports",
-    "description": "Sistema CNU Reports",
-    "version": "",
-    "type": "project",
+    "description": "Sistema de Información de Reportes de Investigación",
+    "version": "v1.0",
     "license": "Licencias de software",
-    "autoload": {
+    "type": "project",    
+     "autoload": {
         "psr-4": {
             "Controller\\": "controller/",
             "Model\\": "model/"
@@ -13,14 +13,20 @@
     "authors": [
         {
             "name": "Lexmark Alexander Palacios Martínez",
-            "email": "*",
-            "homepage": "*",
+            "email": "lexmark@gmail.com",
+            "homepage": "https://www.lexmark.com",
             "role": "Developer"
         },
         {
             "name": "Donald José Munguía Guadamuz",
             "email": "jdonaldmunguia@gmail.com",
-            "homepage": "*",
+            "homepage": "https://www.jdonald.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Juan Ramón",
+            "email": "juanramon@gmail.com",
+            "homepage": "https://www.juanramon.com",
             "role": "Developer"
         }
     ],
