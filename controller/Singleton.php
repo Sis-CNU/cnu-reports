@@ -22,6 +22,7 @@ trait Singleton
     */
    private function __construct()
    {
+      // echo "<pre style='margin-bottom: 10px;' >0. Testeando el constructor del trait Singleton</pre>";
    }
 
    /**

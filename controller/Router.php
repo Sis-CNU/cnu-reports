@@ -37,12 +37,12 @@ class Router
          *  Prohibido el uso de guión y guión bajo al inicio y final.
          */
         'string' => '[^-_][A-Za-z0-9-_]+[^\W_]'
-    ];
+    ];    
 
     /**
      * Constructor de la clase Router.
      */
-    public function __construct()
+    private function __construct()
     {
         // Incluyendo el archivo routes.php
         include_once('../routes/routes.php');
@@ -59,6 +59,8 @@ class Router
          * siendo la ruta => /this/is/my/path
          */
         $path = $request->getPath();
+
+        // echo $path; // Haciendo pruebas desde aquí
 
         /**
          * Redireccionando a la URI permitida por el framework

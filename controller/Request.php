@@ -55,7 +55,7 @@ class Request
      * Constructor de la clase Request
      *
      */
-    public function __construct()
+    private function __construct()
     {
         $this->domain = $_SERVER['HTTP_HOST'];
         $this->path = explode('?', $_SERVER['REQUEST_URI'])[0];

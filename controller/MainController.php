@@ -19,13 +19,20 @@ class MainController
 
     public function mainPage()
     {
-        self::$response = Response::getInstance();
-        $http_protocol = $_SERVER['SERVER_PROTOCOL'];
-        $data = ['cat' => 'Cat', 'dog' => 'Dog', 'bunny' => 'Bunny', 'duck' => 'Duck', 'elefant' => 'Elefant', 'http_protocol' => $http_protocol];
-        return self::$response->view('../view/app.php', $data);
+        // self::$response = Response::getInstance();
+        // $http_protocol = $_SERVER['SERVER_PROTOCOL'];
+        // $data = ['cat' => 'Cat', 'dog' => 'Dog', 'bunny' => 'Bunny', 'duck' => 'Duck', 'elefant' => 'Elefant', 'http_protocol' => $http_protocol];
+
+        // return self::$response->view('../view/app.php', $data);
         // return self::$response->json($data, 200);
         // return self::$response->redirect('/redirect');
         // return self::$response->render('../view/app.php');
+
+        // echo phpinfo();        
+
+        echo Database::execute();
+        echo Database::fetch();
+        echo Database::test();
     }
 
     public function redirect()
