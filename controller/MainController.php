@@ -16,12 +16,29 @@ class MainController
      * @var Response
      */
     private static Response $response;
+    private static Session $session;
+
+    private function __construct()
+    {
+        self::$response = Response::getInstance();
+        self::$session = Session::getInstance();
+
+    }
 
     public function mainPage()
     {
-        // self::$response = Response::getInstance();
-        // $http_protocol = $_SERVER['SERVER_PROTOCOL'];
-        // $data = ['cat' => 'Cat', 'dog' => 'Dog', 'bunny' => 'Bunny', 'duck' => 'Duck', 'elefant' => 'Elefant', 'http_protocol' => $http_protocol];
+
+        $http_protocol = $_SERVER['SERVER_PROTOCOL'];
+        $started = self::$session->start("lexmark");
+        //self::$session->close();
+
+        $var = self::$session->check();
+        $id = self::$session->getId();
+        //$var = true;
+
+        $data = ['id'=>$id, 'started'=>$var, 'cat' => 'Cat', 'dog' => 'Dog', 'bunny' => 'Bunny', 'duck' => 'Duck', 'elefant' => 'Elefant', 'http_protocol' => $http_protocol];
+        //$data = ['cat' => 'Cat', 'dog' => 'Dog', 'bunny' => 'Bunny', 'duck' => 'Duck', 'elefant' => 'Elefant', 'http_protocol' => $http_protocol];
+        return self::$response->view('../view/app.php',$data);
 
         // return self::$response->view('../view/app.php', $data);
         // return self::$response->json($data, 200);
