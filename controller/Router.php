@@ -37,20 +37,29 @@ class Router
          *  Prohibido el uso de guión y guión bajo al inicio y final.
          */
         'string' => '[^-_][A-Za-z0-9-_]+[^\W_]'
-    ];    
+    ];
 
     /**
      * Constructor de la clase Router.
      */
     private function __construct()
     {
-        // Incluyendo el archivo routes.php
+        // Incluyendo o carga del archivo routes.php
         include_once('../routes/routes.php');
 
         // Asignación de la variable $this->routeMap
         $this->routeMap = $routes;
     }
 
+
+    /**
+     * [Description for route]
+     *
+     * @param Request $request
+     * 
+     * @return [type]
+     * 
+     */
     public function route(Request $request)
     {
         /**
@@ -250,5 +259,26 @@ class Router
             [$instance, $info['callback']],
             $params
         );
+    }
+
+    public static function get(string $url, callable $callback)
+    {
+        echo $url . $callback();
+
+    }
+
+    public static function post(string $url, callable $callback)
+    {
+        echo $url . $callback();
+    }
+
+    public static function put(string $url, callable $callback)
+    {
+        echo $url . $callback();
+    }
+
+    public static function delete(string $url, callable $callback)
+    {
+        echo $url . $callback();
     }
 }

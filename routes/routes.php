@@ -1,55 +1,20 @@
 <?php
 
-/**
- * 
- * 
- */
 $routes = [
    "/" => [
       "controller" => "MainController",
-      "callback" => "mainPage",
+      "callback" => "index",
    ],
-   "home" => [
-      "controller" => "MainController",
-      "callback" => "mainPage",
-   ],
-   "redirect" => [
-      "controller" => "MainController",
-      "callback" => "redirect",
-   ],
-   "research" => [
-      "post" => [
+
+   "resource" => [
+      "/" => [
          "controller" => "MainController",
-         "callback" => "getPostResearch",
+         "callback" => "getFunction",
       ],
-      "under" => [
+
+      "/:id" => [
          "controller" => "MainController",
-         "callback" => "getResearchUnder",
-      ],
-      ":id/all-events/category/:cat" => [
-         "controller" => "MainController",
-         "callback" => "getEvent",
-         "params" => [
-            "id" => "number",
-            "cat" => "string"
-         ],
-      ],
-      "events/:cat/category/:id" => [
-         "controller" => "MainController",
-         "callback" => "getEventTest",
-         "params" => [
-            "cat" => "string",
-            "id" => "number"
-         ],
-      ],
-      ":id" => [
-         "controller" => "MainController",
-         "callback" => "testOnlyOneParameter",
-         "params" => [            
-            "id" => "number"
-         ],
+         "callback" => "postFunction",
       ],
    ],
-   "events" => [],
-   "courses" => []
 ];
