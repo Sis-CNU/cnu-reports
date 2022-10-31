@@ -1,6 +1,8 @@
 <?php
 
-namespace Controller;
+declare(strict_types=1);
+
+namespace App;
 
 /**
  * [Description Header]
@@ -17,14 +19,14 @@ class Header
    /**
     * STRICT_TRANSPORT_SECURITY
     *
-    * @var [type]
+    * @var string
     */
    public const STRICT_TRANSPORT_SECURITY = "max-age=31536000; includeSubdomains; preload";
 
    /**
     * XSS_PROTECTION
     *
-    * @var [type]
+    * @var string
     */
    public const XSS_PROTECTION = "1; mode=block";
 
@@ -80,21 +82,21 @@ class Header
    /**
     * CONTENT_TYPE_API
     *
-    * @var [type]
+    * @var string
     */
    public const CONTENT_TYPE_API =  "application/json; charset=utf-8";
 
    /**
     * ERROR_PAGE_DIRECTORY
     *
-    * @var [type]
+    * @var string
     */
    public const ERROR_PAGE_DIRECTORY = "../view/templates/error-page.php";
 
    /**
     * [Description for getHttpProtocol]
     *
-    * @return string
+    * @return bool
     * 
     */
    public static function getHttpProtocol(): string
@@ -167,7 +169,7 @@ class Header
     * @param int $code
     * @param bool $replace
     * 
-    * @return [type]
+    * @return string|false
     * 
     */
    public static function headerResponse(int $code, bool $replace = true)
@@ -192,7 +194,7 @@ class Header
     * @param int $code
     * @param bool $replace
     * 
-    * @return [type]
+    * @return void
     * 
     */
    public static function apiHeaderResponse(int $code, bool $replace = true)
@@ -207,7 +209,7 @@ class Header
     *
     * @param mixed $code
     * 
-    * @return [type]
+    * @return void
     * 
     */
    private static function addApiSecurityHeaders($code)
@@ -228,7 +230,7 @@ class Header
    /**
     * [Description for addSecurityHeaders]
     *
-    * @return [type]
+    * @return void
     * 
     */
    private static function addSecurityHeaders(int $code)
@@ -248,7 +250,7 @@ class Header
     *
     * @param string $url
     * 
-    * @return [type]
+    * @return void
     * 
     */
    public static function redirectHeaders(string $url)

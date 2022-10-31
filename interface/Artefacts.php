@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Controller;
+namespace Interface;
 
 /**
  * Interface Artefacts
@@ -33,7 +33,7 @@ interface Artefacts
      * @return mixed
      * 
      */
-    public function read(int $id): mixed;
+    public function show(int | string $id): mixed;
 
     /**
      * Actualiza un recurso de la base de datos.
@@ -43,7 +43,7 @@ interface Artefacts
      * @return mixed
      * 
      */
-    public function update(int $id): mixed;
+    public function update(int | string $id): mixed;
 
     /**
      * Actualiza el recurso a su estado 'Inhabilitado'
@@ -53,5 +53,5 @@ interface Artefacts
      * @return mixed
      * 
      */
-    public function delete(int $id): mixed;
+    public function delete(int | string $id): mixed;
 }

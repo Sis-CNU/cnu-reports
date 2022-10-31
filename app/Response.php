@@ -1,8 +1,10 @@
 <?php
 
-namespace Controller;
+declare(strict_types=1);
 
-use Controller\Header;
+namespace App;
+
+use App\Header;
 
 /**
  * Clase Response
@@ -95,5 +97,10 @@ class Response
         Header::apiHeaderResponse($code);
         echo json_encode(['data' => $data]); // JSON_PRETTY_PRINT
         exit();
+    }
+
+    public function response(int $code)
+    {
+        Header::headerResponse($code);
     }
 }

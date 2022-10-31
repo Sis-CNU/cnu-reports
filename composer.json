@@ -8,7 +8,8 @@
         "psr-4": {
             "Controller\\": "controller/",
             "Model\\": "model/",
-            "App\\": "app/"
+            "App\\": "app/",
+            "Interface\\": "interface/"
         }
     },
     "authors": [
