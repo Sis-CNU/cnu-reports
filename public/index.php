@@ -1,14 +1,6 @@
 <?php
 
 require_once('../vendor/autoload.php');
+require_once('../app/App.php');
 
-use Controller\{
-    Request,    
-    Router
-};
-
-$router = Router::getInstance();
-$request = Request::getInstance();
-$response = $router->route($request);
-
-echo $response;
+echo $app();

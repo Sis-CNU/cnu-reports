@@ -7,6 +7,6 @@
    <title>Prueba de Latex</title>
 </head>
 <body>
-   <a href="/pdf">Crear PDF</a>
+   <a href="/#">Crear PDF</a>
 </body>
 </html>

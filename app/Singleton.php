@@ -1,6 +1,8 @@
 <?php
 
-namespace Controller;
+declare(strict_types=1);
+
+namespace App;
 
 /**
  * Trait Patrón de Diseño Singleton
@@ -44,7 +46,7 @@ trait Singleton
     */
    private function __wakeup()
    {
-	   throw new Exception("Cannot unserialize singleton");
+      throw new \Exception("Cannot unserialize singleton");
    }
 
    /**
