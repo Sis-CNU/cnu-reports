@@ -105,7 +105,7 @@ class Request
      *
      */
     public function isGet(): bool
-    {        
+    {
         return $this->method === HttpMethod::GET->value;
     }
 
@@ -116,7 +116,7 @@ class Request
      *
      */
     public function isPost(): bool
-    {        
+    {
         return $this->method === HttpMethod::POST->value;
     }
 
@@ -143,60 +143,89 @@ class Request
     }
 
     /**
-     * Datos recuperados a través de la petición.
+     * Sanitizacion de datos recuperados a través de la petición.
      *
-     * @param string $name Nombre clave para recuperar dato del arreglo.
+     * @param string $name Valor del dato del arreglo.
      *
      * @return mixed
      *
      */
-    public function getData(string $name)
+    private function sanitize(string $value): mixed
     {
-        return $this->params[$name] ?? null;
+        return $this->getInteger($value) ?? $this->getNumber($value) ??
+            $this->getString($value) ?? null;
     }
 
     /**
      * Validación de dato entero del arreglo GET o POST.
      *
-     * @param string $name Nombre clave para recuperar dato del arreglo GET o POST.
+     * @param string $value Valor del dato del arreglo GET o POST.
      *
      * @return int
      *
      */
-    public function getInteger(string $name): int
+    private function getInteger(string $value)
     {
-        return (int) $this->getData($name);
+        if (is_numeric($value) && preg_match('|^[0-9]+$|', $value))
+            return (int) $value;
+        else return null;
     }
 
     /**
      * Validación de dato flotante del arreglo GET o POST.
      *
-     * @param string $name Nombre clave para recuperar dato del arreglo GET o POST.
+     * @param string $name Valor del dato del arreglo GET o POST.
      *
      * @return float
      *
      */
-    public function getNumber(string $name): float
+    private function getNumber(string $value)
     {
-        return (float) $this->getData($name);
+        if (is_numeric($value) && floatval($value))
+            return (float) $value;
+        else return null;
     }
 
     /**
      * Validación de cadena de texto del arreglo GET o POST.
      *
-     * @param string $name Nombre clave para recuperar dato del arreglo GET o POST.
+     * @param string $value Valor del dato del arreglo GET o POST.
      * @param bool $filter Por defecto es true, si es true se hace el
      * filtro de carácteres especiales, sino se evita el filtro.
      *
      * @return string
      *
      */
-    public function getString(string $name, $filter = true): string
+    private function getString(string $value, $filter = true)
     {
-        $value = (string) $this->getData($name);
-        return $filter ?
-            addslashes(
-                htmlentities($value, ENT_QUOTES, 'UTF-8')
-            ) : $value;
+        return $filter ? addslashes(htmlentities($value, ENT_QUOTES, 'UTF-8'))
+            : $value;
+    }
+
+    public function getHeader(string $headerType)
+    {
+        try {
+            return getallheaders()[$headerType] ??
+                getallheaders()[strtolower($headerType)];
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getAll(): array
+    {
+        $dataset = [];
+
+        foreach ($this->params as $name => $value) {
+            $dataset[$name] = $this->sanitize($value);
+        }
+
+        return $dataset;
+    }
+
+    public function getData(string $name)
+    {
+        $value = $this->params[$name];
+        return $this->sanitize($value);
     }
 }

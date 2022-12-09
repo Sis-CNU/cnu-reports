@@ -26,24 +26,9 @@ class Router
 
     private static array $httpDeleteRoutes = [];
 
-    /**
-     * Patrones Regex para comparar las rutas establecidas
-     * en el archivo routes.php y la URI ejecutada a través del navegador.
-     * 'string' => '\w+' // [a-zA-Z0-9_]
-     */
-    private static array $regexPatterns = [
-        /**
-         * Este patrón solo acepta carácteres numéricos.
-         */
-        'integer' => '\d+',
-        /**
-         *  Este patrón acepta carácteres alfanuméricos separados
-         *  por guión y guión bajo.
-         * 
-         *  Prohibido el uso de guión y guión bajo al inicio y final.
-         */
-        'string' => '[^-_][A-Za-z0-9-_]+[^\W_]'
-    ];
+    private static string $prefix = '';
+
+    private static string $typeOfService = '';
 
     /**
      * Constructor de la clase Router.
@@ -52,37 +37,50 @@ class Router
     {
         self::$request = Request::getInstance();
         self::$response = Response::getInstance();
-        include_once('../routes/routes.php');
+
+        $this->includeRoutes("api");
+        $this->includeRoutes("web");
+    }
+
+    private function includeRoutes(string $typeOfService)
+    {
+        self::$typeOfService = $typeOfService;
+        if (self::$typeOfService === "api")
+            include_once('../routes/api.php');
+
+        if (self::$typeOfService === "web")
+            include_once('../routes/web.php');
     }
 
     public function route()
     {
-        $path = $this->removeBackslashAtStart(self::$request->getPath());
+        $path = self::removeBackslashAtEnd(self::$request->getPath());
         return $this->matchPathWithRoutes($path);
     }
 
     private function matchPathWithRoutes(string $path)
     {
-        $routes = $this->matchHttpMethod(self::$request->getMethod());
+        $routes = $this->getRoutes();
+
         foreach ($routes as $route => $controller) {
             $routeWithRegularExpression = $this->replaceWithRegularExpression($route);
             if (preg_match("@^$routeWithRegularExpression$@", $path)) {
                 return $this->executeController($path, $route, $controller);
-            }else {
-                return self::$response->response(404);
             }
         }
+        
+        return self::$response->response(404);
     }
 
-    private function removeBackslashAtStart(string $str)
+    private static function removeBackslashAtStart(string $str)
+    {
+        return ($str === '/') ? $str : substr_replace($str, "", 0, 1);
+    }
+
+    private static function removeBackslashAtEnd(string $str)
     {
         return (substr($str, -1) === "/" && $str !== '/') ?
             substr_replace($str, "", strlen($str) - 1, 1) : $str;
-    }
-
-    private function removeBackslashAtEnd(string $str)
-    {
-        return ($str === '/') ? $str : substr_replace($str, "", 0, 1);
     }
 
     private function replaceWithRegularExpression(string $route): string
@@ -106,6 +104,14 @@ class Router
         return $parameterSections[0];
     }
 
+    private static function getRegexOfType(string $type): string
+    {
+        return match ($type) {
+            'integer' => '\d+',
+            'string' => '[^-_][A-Za-z0-9-_]+[^\W_]'
+        };
+    }
+
     private function parseParameters(string $route, array $parameterSections)
     {
         foreach ($parameterSections as $param) {
@@ -113,7 +119,7 @@ class Router
 
             $route = str_replace(
                 "{" . $variable . ":" . $type . "}",
-                self::$regexPatterns[$type],
+                self::getRegexOfType($type),
                 $route
             );
         }
@@ -135,7 +141,7 @@ class Router
 
     private function extractChunksFromUrl($url)
     {
-        return explode('/', $this->removeBackslashAtEnd($url));
+        return explode('/', self::removeBackslashAtStart($url));
     }
 
     private function extractParameters(array $chunksOfPath, array $chunksOfRoute)
@@ -160,35 +166,82 @@ class Router
 
     public static function get(string $route, array $controller)
     {
-        if (self::$request->isGet())
-            self::$httpGetRoutes[$route] = $controller;
+        if (self::$request->isGet()) {
+            array_push($controller, HttpMethod::GET->value, self::$typeOfService);
+            self::$httpGetRoutes[self::$prefix . $route] = $controller;
+        }
     }
 
     public static function post(string $route, array $controller)
     {
-        if (self::$request->isPost())
-            self::$httpPostRoutes[$route] = $controller;
+        if (self::$request->isPost()) {
+            array_push($controller, HttpMethod::POST->value, self::$typeOfService);
+            self::$httpPostRoutes[self::$prefix . $route] = $controller;
+        }
     }
 
     public static function put(string $route, array $controller)
     {
-        if (self::$request->isPut())
-            self::$httpPutRoutes[$route] = $controller;
+        if (self::$request->isPut()) {
+            array_push($controller, HttpMethod::PUT->value, self::$typeOfService);
+            self::$httpPutRoutes[self::$prefix . $route] = $controller;
+        }
     }
 
     public static function delete(string $route, array $controller)
     {
-        if (self::$request->isDelete())
-            self::$httpDeleteRoutes[$route] = $controller;
+        if (self::$request->isDelete()) {
+            array_push($controller, HttpMethod::DELETE->value, self::$typeOfService);
+            self::$httpDeleteRoutes[self::$prefix . $route] = $controller;
+        }
     }
 
-    private function matchHttpMethod(string $httpMethod)
+    private function getRoutes()
     {
-        return match ($httpMethod) {
-            'get' => self::$httpGetRoutes,
-            'post' => self::$httpPostRoutes,
-            'put' => self::$httpPutRoutes,
-            'delete' => self::$httpDeleteRoutes,
+        $routes = $this->filterRoutesByHttpMethod(self::$request->getMethod());
+        return $this->filterRoutesByPrefix($routes);
+    }
+
+    private function filterRoutesByHttpMethod(string $method)
+    {
+        return match ($method) {
+            "get" => self::$httpGetRoutes,
+            "post" => self::$httpPostRoutes,
+            "put" => self::$httpPutRoutes,
+            "delete" => self::$httpDeleteRoutes,
         };
+    }
+
+    private function filterRoutesByPrefix(array $routes)
+    {
+        return array_filter($routes, function ($route) {
+            return str_starts_with($route, self::$prefix);
+        }, ARRAY_FILTER_USE_KEY);
+    }
+
+    public static function prefix(string $prefix)
+    {
+        self::$prefix = "/$prefix";
+        return new self;
+    }
+
+    public static function group(callable $callback)
+    {
+        $callback();
+        if (!self::hasPathPrefix(self::$prefix))
+            self::$prefix = '';
+    }
+
+    private static function extractFirstDirectoryFromPath(string $path)
+    {
+        $path = self::removeBackslashAtStart(self::$request->getPath());
+        [$firstDirectory] = explode('/', $path);
+        return $firstDirectory;
+    }
+
+    private static function hasPathPrefix(string $prefix)
+    {
+        return self::removeBackslashAtStart($prefix) ===
+            self::extractFirstDirectoryFromPath(self::$request->getPath());
     }
 }

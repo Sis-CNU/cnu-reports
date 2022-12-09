@@ -14,27 +14,35 @@ class Response
     // Uso de patrón de diseño Singleton
     use Singleton;
 
+    private static Request $request;
+
+    private function __construct()
+    {
+        self::$request = Request::getInstance();
+    }
+
     /**
      * Renderiza la vista html establecida por una ruta.
      *
      * @param string $view Directorio del archivo vista.
-     * @param array $data Arreglo de datos que se mandan a la vista.
-     * 
-     * @return string|false Vista.
-     * 
+     * @param array $data Arreglo de datos que se mandan a la vista.     
      */
     public function view(string $view, array $data = [])
     {
-        if (file_exists($view) && !empty($view) && $view != null) {
-            if (!empty($data)) extract($data);
-            Header::headerResponse(200);
+        try {
+            if (file_exists($view) && !empty($view) && $view != null) {
+                if (!empty($data)) extract($data);
 
-            ob_start();
-            require_once($view);
-            flush();
-            echo ob_get_clean();
-        } else {
-            Header::headerResponse(404);
+                ob_start();
+                require_once($view);
+                Header::headerResponse(200);
+                flush();
+                echo ob_get_clean();
+            } else {
+                Header::headerResponse(404);
+            }
+        } catch (\Throwable) {
+            Header::headerResponse(500);
         }
     }
 
@@ -43,23 +51,27 @@ class Response
      *
      * @param string $view Directorio del archivo vista a renderizar.
      * @param array $data Arreglo de datos que se mandan a la vista.
-     * 
+     *
      * @return string|false Contenido renderizado
-     * 
+     *
      */
-    public function render(string $view, array $data = [])
+    public function render(string $view, array $data = []): string|false
     {
-        if (file_exists($view) && !empty($view) && $view != null) {
-            if (!empty($data)) extract($data);
-            Header::headerResponse(200);
+        try {
+            if (file_exists($view) && !empty($view) && $view != null) {
+                if (!empty($data)) extract($data);
 
-            ob_start();
-            require_once($view);
-            $content = ob_get_contents();
-            ob_get_clean();
-            return $content;
-        } else {
-            Header::headerResponse(404);
+                ob_start();
+                require_once($view);
+                Header::headerResponse(200);
+                $content = ob_get_contents();
+                ob_get_clean();
+                return $content;
+            } else {
+                Header::headerResponse(404);
+            }
+        } catch (\Throwable) {
+            Header::headerResponse(500);
         }
     }
 
@@ -68,18 +80,24 @@ class Response
      *
      * @param string $url URL a redireccionar.
      * @param array $data Arreglo de datos que se mandan con la redirección.
-     * 
+     *
      * @return never
-     * 
+     *
      */
     public function redirect(string $url, array $data = []): never
     {
-        if (!empty($data)) {
-            session_start();
-            $_SESSION['data'] = $data;
+        try {
+            if (!empty($data)) {
+                session_start();
+                $_SESSION['data'] = $data;
+            }
+
+            Header::redirectHeaders($url);
+        } catch (\Throwable) {
+            Header::headerResponse(500);
+        } finally {
+            exit();
         }
-        Header::redirectHeaders($url);
-        exit();
     }
 
     /**
@@ -87,20 +105,35 @@ class Response
      *
      * @param array $data Arreglo de datos.
      * @param int $code Código de status http.
-     * 
-     * @return string|false
-     * 
+     *
+     * @return never
+     *
      */
-    public function json(array $data, int $code): never
+    public function json(array $data, int $code = 200): never
     {
-        ob_start();
-        Header::apiHeaderResponse($code);
-        echo json_encode(['data' => $data]); // JSON_PRETTY_PRINT
-        exit();
+        try {
+            ob_start();
+            Header::apiHeaderResponse($code);
+            echo json_encode(['data' => $data]);
+        } catch (\Throwable) {
+            Header::headerResponse(500);
+        } finally {
+            exit();
+        }
     }
 
     public function response(int $code)
     {
-        Header::headerResponse($code);
+        try {
+            $headerFilter = self::$request->getHeader('Accept');        
+
+            if ($headerFilter != "application/json") {
+                Header::headerResponse($code);
+            } else {
+                Header::apiHeaderResponse($code);
+            }
+        } catch (\Throwable) {
+            Header::headerResponse(500);
+        }
     }
 }

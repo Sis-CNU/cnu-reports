@@ -202,6 +202,15 @@ class Header
       http_response_code($code);
       self::addApiSecurityHeaders($code);
       header(self::getHttpStatus($code), $replace, $code);
+
+      if ($code >= 300 && $code <= 499) {         
+         $data = [
+            "errorMessage" => self::getHttpStatus($code),
+            "status" => false
+         ];
+         ob_start();         
+         echo json_encode(['data' => $data]);
+      }
    }
 
    /**
@@ -255,7 +264,7 @@ class Header
     */
    public static function redirectHeaders(string $url)
    {
-      if (self::urlExist($url)) {         
+      if (self::urlExist($url)) {
          header("Location: $url");
          self::addSecurityHeaders(200);
       }
